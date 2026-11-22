@@ -16,6 +16,15 @@ cp .env.example .env
 python app.py        # http://127.0.0.1:5000
 ```
 
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
+Tests run offline on deterministic synthetic OHLCV (no network, no `yfinance` needed) and also run in GitHub Actions.
+
 ## Layout
 
 | File | Purpose |
@@ -25,7 +34,9 @@ python app.py        # http://127.0.0.1:5000
 | `market.py` | Tab 1 indicators, patterns and signal scoring |
 | `smc.py` | Tab 2 SMC detection, confluence scoring, strategies |
 | `config.py` | `PIVOT_LENGTH`, `BOS_LOOKBACK` |
-| `templates/index.html` | Two-tab dashboard UI |
+| `templates/index.html` | Two-tab dashboard page |
+| `static/app.js`, `static/style.css` | Dashboard behaviour and styling |
+| `tests/` | Offline pytest suite |
 
 ## Known limits
 
