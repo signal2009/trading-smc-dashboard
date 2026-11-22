@@ -24,3 +24,9 @@ def test_api_reports_missing_data(monkeypatch):
     monkeypatch.setattr(app_module, "get_historical_data", lambda *a, **k: None)
     r = _client().get("/api/smc/NOPE").get_json()
     assert r["success"] is False and "NOPE" in r["message"]
+
+
+def test_static_assets_are_served():
+    c = _client()
+    assert c.get("/static/app.js").status_code == 200
+    assert c.get("/static/style.css").status_code == 200
