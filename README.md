@@ -30,7 +30,7 @@ python app.py        # http://127.0.0.1:5000
 ## Known limits
 
 - Yahoo symbols are proxies (e.g. gold = `GC=F` futures, not spot XAUUSD), and the intraday history window is short.
-- `USOIL` and `UKOIL` map to `BZ=F` and `CL=F` respectively, which look swapped (Brent and WTI); check before relying on them.
+- `USOIL` maps to WTI futures (`CL=F`) and `UKOIL` to Brent futures (`BZ=F`); these are futures proxies, not spot.
 - Pivot detection looks `PIVOT_LENGTH` bars ahead, so signals lag live price by design.
 
 ## Development with AI
