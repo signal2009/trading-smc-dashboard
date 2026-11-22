@@ -19,6 +19,10 @@ def calculate_atr_np(df, period=14):
     return atr
 
 def detect_pivots_luxalgo(df, length=PIVOT_LENGTH):
+    """Swing highs/lows needing `length` strictly lower/higher bars on BOTH sides.
+
+    Because it looks `length` bars ahead, a pivot is only known `length` bars after it forms (lag).
+    """
     highs = df['High'].values; lows = df['Low'].values; opens = df['Open'].values
     closes = df['Close'].values; volume = df['Volume'].values if 'Volume' in df.columns else np.ones(len(df))
     sh_list = []; sl_list = []
@@ -48,6 +52,10 @@ def detect_pivots_luxalgo(df, length=PIVOT_LENGTH):
     return sh_list, sl_list
 
 def detect_bos(df, swing_highs, swing_lows, atr):
+    """Break of structure: a close beyond an unbroken swing level, held >=10 bars and >0.5 ATR past it.
+
+    A BOS is `is_major` when held >=30 bars and the move exceeds 1 ATR.
+    """
     close = df['Close'].values; bos = []; bh = set(); bl = set()
     for i in range(len(close)):
         ca = atr[i] if atr[i] > 0 else atr[max(0, i-1)]
@@ -152,6 +160,7 @@ def mark_ob_status(df, order_blocks):
 # ═══════════════════════════════════════════════════════════════
 
 def detect_fvg(df, atr, min_atr_mult=0.3):
+    """Three-candle fair value gaps at least `min_atr_mult` ATR wide, flagged mitigated once price refills them."""
     h = df['High'].values; l = df['Low'].values; c = df['Close'].values; o = df['Open'].values
     v = df['Volume'].values if 'Volume' in df.columns else np.ones(len(df))
     fvgs = []
@@ -196,6 +205,7 @@ def detect_fvg(df, atr, min_atr_mult=0.3):
 # ═══════════════════════════════════════════════════════════════
 
 def detect_choch(df, swing_highs, swing_lows, bos_events):
+    """Change of character: the first BOS against the running structure direction."""
     c = df['Close'].values
     choch_events = []
     # Track running structure direction from BOS
@@ -1126,6 +1136,7 @@ def strategy_3(df, sh, sl, bos, obs, pl, ph, fvgs=None, pd_zone=None):
     return signals
 
 def analyze_smc(df, symbol):
+    """Run the full SMC pipeline on an OHLCV frame (needs >=100 bars) and return a JSON-safe dict, or None."""
     if df is None or df.empty or len(df) < 100: return None
     try:
         cp = float(df['Close'].iloc[-1]); ci = len(df)-1
