@@ -31,7 +31,7 @@ INSTRUMENTS = {
     'GBPJPY': 'GBPJPY=X', 'XAUUSD': 'GC=F', 'XAGUSD': 'SI=F',
     'BTCUSD': 'BTC-USD', 'ETHUSD': 'ETH-USD', 'BNBUSD': 'BNB-USD',
     'ADAUSD': 'ADA-USD', 'DOGEUSD': 'DOGE-USD', 'US30': '^DJI',
-    'SPX500': '^GSPC', 'NAS100': '^IXIC', 'UKOIL': 'CL=F', 'USOIL': 'BZ=F'
+    'SPX500': '^GSPC', 'NAS100': '^IXIC', 'UKOIL': 'BZ=F', 'USOIL': 'CL=F'
 }
 
 
