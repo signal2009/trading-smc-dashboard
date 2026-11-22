@@ -1,7 +1,6 @@
 """Data access and shared helpers."""
 import numpy as np
 import pandas as pd
-import yfinance as yf
 
 
 def convert_numpy_types(obj):
@@ -37,6 +36,8 @@ INSTRUMENTS = {
 
 def get_historical_data(symbol, period='6mo', interval='1h'):
     try:
+        import yfinance as yf  # imported lazily so analysis code and tests run without it
+
         yf_symbol = INSTRUMENTS.get(symbol, symbol)
         ticker = yf.Ticker(yf_symbol)
         df = ticker.history(period=period, interval=interval)
